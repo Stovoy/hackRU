@@ -20,7 +20,7 @@ public class GoogleMapsAPI
 		}
 		catch (MalformedURLException e)
 		{
-			System.err.println("Malformed URL\n");
+			System.err.println("Malformed URL");
 		}
 		
 		Image image = null;
