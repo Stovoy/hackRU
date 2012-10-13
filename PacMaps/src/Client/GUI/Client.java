@@ -1,43 +1,44 @@
 package Client.GUI;
 
+import java.awt.Color;
 import java.util.HashMap;
 
 import javax.swing.JApplet;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-import Client.GUI.Panels.ButtonPanel;
-import Client.GUI.Panels.CenterPanel;
-import Client.GUI.Panels.EditorPanel;
-import Client.GUI.Panels.GamePanel;
-import Client.GUI.Panels.LabelPanel;
-import Client.GUI.Panels.SelectionPanel;
+import Client.GUI.Layout.TogglePanel;
+import Client.GUI.Panels.ControlPanel;
+import Client.GUI.Panels.CenterPanels.CenterPanel;
+import Client.GUI.Panels.CenterPanels.EditorPanel;
+import Client.GUI.Panels.CenterPanels.GamePanel;
+import Client.GUI.Panels.CenterPanels.SelectionPanel;
 
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
 public class Client extends JApplet
 {
-	private LabelPanel label;
-	private ButtonPanel buttons;
+	private ControlPanel controlPanel;
 	
 	private State state;
 	
 	private HashMap<State, CenterPanel> stateToCenterPanel;
 	
-	public Client()
+	private TogglePanel panel;
+	
+	public Client() throws UnsupportedLookAndFeelException
 	{
-		setSize(800, 800);
-		setLayout(new FormLayout("f:20px:n, f:600px:n, f:20px:n", "f:15px:n, f:50px:n, f:20px:n, f:650px:n, f:20px:n, f:30px:n, f:15px:n"));
-		
-		label = new LabelPanel();
-		buttons = new ButtonPanel();
-		
-		add(label, CC.xyw(1, 2, 3));
-		add(buttons, CC.xyw(1, 6, 3));
-		
+		UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
+		setLayout(new FormLayout("f:0px:g", "f:0px:g"));
+		getContentPane().setBackground(new Color(244, 244, 244));
+
+		controlPanel = new ControlPanel();
 		stateToCenterPanel = new HashMap<State, CenterPanel>();
 
 		initializePanels();
-		
+
 		prepare(State.Selection);
 	}
 	
@@ -51,9 +52,17 @@ public class Client extends JApplet
 	private void prepare(State newState)
 	{
 		if (state != null) cleanup(state);
+		else
+		{
+			panel = new TogglePanel(controlPanel, getCenterPanel(newState), TogglePanel.Position.Top, TogglePanel.State.Opened);
+			add(panel, CC.xy(1, 1));
+		}
 		state = newState;
-		label.prepare(state);
-		add(getCurrentCenterPanel(), CC.xy(2, 4));
+		controlPanel.prepare(state);
+
+		CenterPanel current = getCurrentCenterPanel();
+		if (panel.getGrowing() != current)
+			panel.setGrowing(current);
 	}
 	
 	private void cleanup(State state)

@@ -19,7 +19,11 @@ public class ImagePanel extends JPanel
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, null);
+        int widthDifference = (getWidth()-600)/2;
+        if (widthDifference < 0) widthDifference = 0;
+        int heightDifference = (getHeight()-600)/2;
+        if (heightDifference < 0) heightDifference = 0;
+        g.drawImage(image, widthDifference, heightDifference, null);
         this.updateUI();
     }
 }

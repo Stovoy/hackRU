@@ -1,4 +1,4 @@
-package Client.GUI.Panels;
+package Client.GUI.Panels.CenterPanels;
 
 import javax.swing.JPanel;
 

@@ -1,4 +1,5 @@
-package Client.GUI.Panels;
+package Client.GUI.Panels.CenterPanels;
+
 
 public class GamePanel extends CenterPanel
 {

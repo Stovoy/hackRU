@@ -11,10 +11,10 @@ public class ButtonPanel extends JPanel
 	private JButton previous, next;
 	public ButtonPanel()
 	{
-		setLayout(new FormLayout("f:50px:n, f:100px:n, f:320px:n, f:100px:n, f:50px:n", "f:0px:g"));
+		setLayout(new FormLayout("f:100px:n, f:0px:g, f:100px:n", "f:0px:g"));
 		previous = new JButton("Previous");
 		next = new JButton("Next");
-		add(previous, CC.xy(2, 1));
-		add(next, CC.xy(4, 1));
+		add(previous, CC.xy(1, 1));
+		add(next, CC.xy(3, 1));
 	}
 }

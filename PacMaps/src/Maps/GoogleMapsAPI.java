@@ -9,14 +9,14 @@ import javax.imageio.ImageIO;
 
 public class GoogleMapsAPI 
 {	
-	public static Image getImage(String location)
+	public static Image getImage(String location, int zoom)
 	{
 		location = location.replaceAll("//s", " ").replace(" ", "+");
 		URL url = null;
 		try
 		{
-			url = new URL(String.format("http://maps.googleapis.com/maps/api/staticmap?center=%s&zoom=13&size=600x600&sensor=false", 
-					location));
+			url = new URL(String.format("http://maps.googleapis.com/maps/api/staticmap?center=%s&zoom=%d&size=600x600&sensor=false", 
+					location, zoom));
 		}
 		catch (MalformedURLException e)
 		{
