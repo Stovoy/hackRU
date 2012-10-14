@@ -13,6 +13,7 @@ import javax.swing.JApplet;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import API.JSONReaderApi;
 import Client.Layout.TogglePanel;
 import Client.Panels.ControlPanel;
 import Client.Panels.CenterPanels.AbstractCenterPanel;
@@ -37,6 +38,7 @@ public class Client extends JApplet implements ActionListener, KeyListener
 	
 	public Client() throws UnsupportedLookAndFeelException
 	{
+		JSONReaderApi.getCensusData("Edison");
 		UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
 		setLayout(new FormLayout("f:0px:g", "f:0px:g"));
 		getContentPane().setBackground(new Color(244, 244, 244));
