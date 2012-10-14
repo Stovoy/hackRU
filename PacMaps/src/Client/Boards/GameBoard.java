@@ -7,16 +7,31 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.geom.Area;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Timer;
 
+import Entities.PacMan;
+import Game.Game;
 import Maps.Intersect;
 import Maps.Line;
 import Maps.Map;
-import Maps.Point;
 
 public class GameBoard extends AbstractBoard
 {
     private Map map;
+    private Timer timer;
+    private Game game;
+    
+    public GameBoard()
+    {
+//    	pacMan = new PacMan();
+    	timer = new Timer();
+    	game = new Game();
+    }
+    
+    public void start()
+    {
+    	timer.scheduleAtFixedRate(game, 0, 33);
+    }
 
 	@Override
 	public void update()
@@ -37,6 +52,25 @@ public class GameBoard extends AbstractBoard
     {
         g.drawImage(map.getImage(), 0, 0, null);
     }
+
+	private void drawLines(Graphics g)
+    {
+		Graphics2D graphics = (Graphics2D)g;
+		ArrayList<Line> linesToAdd = new ArrayList<Line>();
+		linesToAdd.add(map.getFirstLine());
+    	Area area = createArea(null, linesToAdd, null);
+    	g.setColor(Color.BLACK);
+		graphics.fill(area);
+		graphics.setStroke(new BasicStroke(1));
+		g.setColor(new Color(0, 51, 255));
+		graphics.setStroke(new BasicStroke(2));
+		graphics.draw(area);
+    }
+	
+	private void drawPacman(Graphics g)
+	{
+		game.getPacmanImage();
+	}
     
     private Area createArea(Area area, ArrayList<Line> linesToProcess, ArrayList<Line> finishedLines)
     {
@@ -81,20 +115,6 @@ public class GameBoard extends AbstractBoard
     		return area;
     	else
     		return createArea(area, newLinesToProcess, finishedLines);
-    }
-
-	private void drawLines(Graphics g)
-    {
-		Graphics2D graphics = (Graphics2D)g;
-		ArrayList<Line> linesToAdd = new ArrayList<Line>();
-		linesToAdd.add(map.getFirstLine());
-    	Area area = createArea(null, linesToAdd, null);
-    	g.setColor(Color.BLACK);
-		graphics.fill(area);
-		graphics.setStroke(new BasicStroke(1));
-		g.setColor(new Color(0, 51, 255));
-		graphics.setStroke(new BasicStroke(2));
-		graphics.draw(area);
     }
 	
     private Polygon createPolygon(Line line)
