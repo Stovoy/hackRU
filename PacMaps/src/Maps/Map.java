@@ -50,4 +50,9 @@ public class Map
 	{
 		lines.clear();
 	}
+
+	public void removeLine(Line line)
+	{
+		lines.remove(line);
+	}
 }

@@ -3,8 +3,9 @@ package Client.Panels.CenterPanels;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
@@ -16,13 +17,17 @@ import Maps.Map;
 import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
 
-public class SelectionPanel extends AbstractCenterPanel implements KeyListener
+public class SelectionPanel extends AbstractCenterPanel
 {
 	private JTextField selectionText;
 	private ImageBoard imageBoard;
 	private int zoom = 16;
 	
+	private ArrayList<ActionListener> actionListeners;
+	
 	private Map map;
+	
+	private boolean isDone = false;
 	
 	public SelectionPanel()
 	{
@@ -31,13 +36,9 @@ public class SelectionPanel extends AbstractCenterPanel implements KeyListener
 		setLayout(new FormLayout("f:0px:g", "f:30px:n, f:20px:n, f:600px:n"));
 		
 		selectionText = new JTextField();
-		selectionText.addKeyListener(this);
 		
 		imageBoard = new ImageBoard();
-		imageBoard.addKeyListener(this);
 		imageBoard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-		addKeyListener(this);
 		
 		add(selectionText, CC.xy(1, 1));
 		add(imageBoard, CC.xy(1, 3));
@@ -46,10 +47,17 @@ public class SelectionPanel extends AbstractCenterPanel implements KeyListener
 		imageBoard.setMap(map);
 	}
 	
+	public boolean isDone()
+	{
+		return isDone;
+	}
+	
 	private void imageUpdate()
 	{
 		Image image = GoogleMaps.getImage(selectionText.getText(), zoom);
 		if (image == null) return;
+		fireAction(new ActionEvent(this, 1, "done"));
+		isDone = true;
 		map.clearLines();
 		map.setImage(image);
 		imageBoard.update();
@@ -59,27 +67,6 @@ public class SelectionPanel extends AbstractCenterPanel implements KeyListener
 	{
 		zoom += zoomOffset;
 		imageUpdate();
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		if (e.getKeyCode() == KeyEvent.VK_ENTER)
-			imageUpdate();
-		else if (e.getKeyCode() == KeyEvent.VK_UP)
-			zoom(1);
-		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-			zoom(-1);
-	}
-	
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
 	}
 	
 	@Override
@@ -94,7 +81,27 @@ public class SelectionPanel extends AbstractCenterPanel implements KeyListener
 		return map;
 	}
 
+	@Override
+	public void addActionListener(ActionListener listener)
+	{
+		if (actionListeners == null) actionListeners = new ArrayList<ActionListener>();
+		actionListeners.add(listener);		
+	}
+
 	protected void fireAction(ActionEvent e)
 	{
+		for (ActionListener listener : actionListeners)
+			listener.actionPerformed(e);
+	}
+
+	@Override
+	public void sendKeyPressed(KeyEvent e)
+	{
+		if (e.getKeyCode() == KeyEvent.VK_ENTER)
+			imageUpdate();
+		else if (e.getKeyCode() == KeyEvent.VK_UP)
+			zoom(1);
+		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
+			zoom(-1);
 	}
 }

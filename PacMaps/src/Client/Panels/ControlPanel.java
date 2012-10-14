@@ -31,6 +31,11 @@ public class ControlPanel extends JPanel
 		buttons.prepare(state);
 	}
 	
+	public void done()
+	{
+		buttons.done();
+	}
+	
 	public void addActionListener(ActionListener listener)
 	{
 		buttons.addActionListener(listener);

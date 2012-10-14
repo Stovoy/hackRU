@@ -1,6 +1,7 @@
 package Client.Panels.CenterPanels;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import Maps.Map;
 
@@ -26,7 +27,17 @@ public class GamePanel extends AbstractCenterPanel
 		return map;
 	}
 
-	protected void fireAction(ActionEvent e)
+	@Override
+	public void addActionListener(ActionListener listener) { }
+
+	@Override
+	public boolean isDone()
 	{
+		return false;
+	}
+
+	@Override
+	public void sendKeyPressed(KeyEvent e)
+	{		
 	}
 }

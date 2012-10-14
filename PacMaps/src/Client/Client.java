@@ -1,8 +1,12 @@
 package Client;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import javax.swing.JApplet;
@@ -21,7 +25,7 @@ import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
-public class Client extends JApplet implements ActionListener
+public class Client extends JApplet implements ActionListener, KeyListener
 {
 	private ControlPanel controlPanel;
 	
@@ -43,7 +47,8 @@ public class Client extends JApplet implements ActionListener
 		initializePanels();
 
 		prepare(State.Selector);
-		
+
+		addKeyListenersToAllChildren(this);
 		controlPanel.addActionListener(this);
 	}
 	
@@ -56,14 +61,18 @@ public class Client extends JApplet implements ActionListener
 	
 	private void prepare(State newState)
 	{
-		if (state != null) panel.setGrowing(getCenterPanel(newState));
+		AbstractCenterPanel centerPanel = getCenterPanel(newState);
+		if (state != null) panel.setGrowing(centerPanel);
 		else
 		{
-			panel = new TogglePanel(controlPanel, getCenterPanel(newState), TogglePanel.Position.Top, TogglePanel.State.Opened);
+			centerPanel.addActionListener(this);
+			panel = new TogglePanel(controlPanel, centerPanel, TogglePanel.Position.Top, TogglePanel.State.Opened);
 			add(panel, CC.xy(1, 1));
 		}
 		state = newState;
 		controlPanel.prepare(state);
+		if (centerPanel.isDone())
+			controlPanel.done();
 	}
 	
 	private AbstractCenterPanel getCenterPanel(State state)
@@ -78,7 +87,7 @@ public class Client extends JApplet implements ActionListener
 	
 	private void done()
 	{
-		
+		controlPanel.done();
 	}
 
 	@Override
@@ -102,7 +111,7 @@ public class Client extends JApplet implements ActionListener
 		}
 		else if (e.getActionCommand().equals("done"))
 		{
-			
+			done();
 		}
 	}
 	
@@ -111,5 +120,33 @@ public class Client extends JApplet implements ActionListener
 		Selector,
 		Editor,
 		Game
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		getCenterPanel(state).sendKeyPressed(e);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+	}
+	
+	public void addKeyListenersToAllChildren(Component component)
+	{
+		if (component instanceof Container)
+		{
+			Container container = (Container)component;
+			for (Component child : container.getComponents())
+				addKeyListenersToAllChildren(child);
+		}
+		component.addKeyListener(this);
+		
 	}
 }

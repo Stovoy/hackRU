@@ -2,10 +2,12 @@ package Client.Panels.CenterPanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import Client.Boards.EditorBoard;
 import Maps.Line;
@@ -23,12 +25,16 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	private Line line = null;
 	private ArrayList<ActionListener> actionListeners;
 	
+	private Stack<Line> lineHistory;
+	
+	private boolean isDone = false;
+	
 	public EditorPanel()
 	{
 		setLayout(new FormLayout("f:0px:g", "f:0px:g"));
 		editorBoard = new EditorBoard();
+		lineHistory = new Stack<Line>();
 		add(editorBoard, CC.xy(1, 1));
-		actionListeners = new ArrayList<ActionListener>();
 	}
 
 	@Override
@@ -65,6 +71,7 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	public void mousePressed(MouseEvent e)
 	{
 		line = new Line(new Point(e.getX(), e.getY()), new Point(e.getX(), e.getY()));
+		lineHistory.push(line);
 		map.addLine(line);
 		editorBoard.update();
 	}
@@ -89,8 +96,10 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	{
 	}
 
-	protected void addActionListener(ActionListener listener)
+	@Override
+	public void addActionListener(ActionListener listener)
 	{
+		if (actionListeners == null) actionListeners = new ArrayList<ActionListener>();
 		actionListeners.add(listener);
 	}
 	
@@ -98,5 +107,22 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	{
 		for (ActionListener listener : actionListeners)
 			listener.actionPerformed(e);
+	}
+
+	@Override
+	public boolean isDone()
+	{
+		return isDone;
+	}
+
+	@Override
+	public void sendKeyPressed(KeyEvent e)
+	{
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			if (lineHistory.size() == 0) return;
+			map.removeLine(lineHistory.pop());
+			editorBoard.update();
+		}
 	}
 }
