@@ -44,6 +44,7 @@ public class SelectionPanel extends AbstractCenterPanel implements KeyListener, 
 		add(imageBoard, CC.xy(1, 3));
 		
 		map = new Map();
+		imageBoard.setMap(map);
 	}
 	
 	private void imageUpdate()
@@ -51,7 +52,7 @@ public class SelectionPanel extends AbstractCenterPanel implements KeyListener, 
 		Image image = GoogleMaps.getImage(selectionText.getText(), zoom);
 		if (image == null) return;
 		map.setImage(image);
-		imageBoard.setMap(map);
+		imageBoard.update();
 	}
 
 	@Override

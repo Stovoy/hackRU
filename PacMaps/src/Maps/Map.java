@@ -1,10 +1,17 @@
 package Maps;
 
 import java.awt.Image;
+import java.util.ArrayList;
 
 public class Map
 {
 	private Image image;
+	private ArrayList<Line> lines;
+	
+	public Map()
+	{
+		lines = new ArrayList<Line>();
+	}
 	
 	public void setImage(Image image)
 	{
@@ -14,5 +21,28 @@ public class Map
 	public Image getImage()
 	{
 		return image;
+	}
+	
+	public void addLine(Line line)
+	{
+		lines.add(line);
+	}
+	
+	public void addLine(Point start, Point end)
+	{
+		addLine(new Line(start, end));
+	}
+	
+	public void addLine(int x1, int y1, int x2, int y2)
+	{
+		addLine(new Point(x1, y1), new Point(x2, y2));
+	}
+	
+	public Line[] getLines()
+	{
+		Line[] lines = new Line[this.lines.size()];
+		for (int i = 0; i < lines.length; ++i)
+			lines[i] = this.lines.get(i);
+		return lines;
 	}
 }

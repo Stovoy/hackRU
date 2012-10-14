@@ -7,4 +7,5 @@ import Maps.Map;
 public abstract class AbstractBoard extends JPanel
 {
 	public abstract void setMap(Map map);
+	public abstract void update();
 }

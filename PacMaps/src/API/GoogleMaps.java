@@ -15,7 +15,7 @@ public class GoogleMaps
 		URL url = null;
 		try
 		{
-			url = new URL(String.format("http://maps.googleapis.com/maps/api/staticmap?center=%s&zoom=%d&size=600x600&sensor=false", 
+			url = new URL(String.format("http://maps.googleapis.com/maps/api/staticmap?center=%s&zoom=%d&size=600x600&sensor=false&key=AIzaSyDIDjeZzpV81g3NBXwaMUb3L0cPw2lE3Bc", 
 					location, zoom));
 		}
 		catch (MalformedURLException e)
