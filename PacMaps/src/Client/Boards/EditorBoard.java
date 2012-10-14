@@ -1,9 +1,12 @@
 package Client.Boards;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import Maps.Line;
 import Maps.Map;
+import Maps.Point;
 
 public class EditorBoard extends AbstractBoard
 {
@@ -20,25 +23,57 @@ public class EditorBoard extends AbstractBoard
     {
     	if (map == null) return;
         super.paintComponent(g);
-        int xOffset = (getWidth()-600)/2;
-        if (xOffset < 0) xOffset = 0;
-        int yOffset = (getHeight()-600)/2;
-        if (yOffset < 0) yOffset = 0;
-        drawImage(g, xOffset, yOffset);
-        drawLines(g, xOffset, yOffset);
+        drawImage(g);
+        drawLines(g);
     }
     
-    private void drawImage(Graphics g, int xOffset, int yOffset)
+    private void drawImage(Graphics g)
     {
-        g.drawImage(map.getImage(), xOffset, yOffset, null);
+        g.drawImage(map.getImage(), 0, 0, null);
     }
     
-    private void drawLines(Graphics g, int xOffset, int yOffset)
+    private void drawLines(Graphics g)
     {
     	for (Line line : map.getLines())
-    	{
     		g.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
-    	}
+    	drawIntersections(g);
+    }
+    
+    private void drawIntersections(Graphics g)
+    {
+    	if (map.getLines().length < 2) return;
+    	HashMap<Line, ArrayList<Line>> calculated = new HashMap<Line, ArrayList<Line>>();
+    	for (Line first : map.getLines())
+    		for (Line second : map.getLines())
+    		{
+    			if (first.equals(second)) continue;
+    			
+    			if (calculated.get(second) != null && calculated.get(second).contains(first)) continue;
+
+    			ArrayList<Line> lines;
+    			lines = calculated.get(first);
+    			if (lines == null)
+				{
+					lines = new ArrayList<Line>();
+					calculated.put(first, lines);
+				}
+    			lines.add(second);
+    			lines = calculated.get(second);
+    			if (lines == null)
+				{
+					lines = new ArrayList<Line>();
+					calculated.put(second, lines);
+				}
+    			lines.add(first);
+    			
+    			Point intersect;
+    			if (Math.abs(first.getAngle()) - Math.PI/2 < Math.PI/4)
+    				intersect = second.intersects(first);
+    			else
+    				intersect = first.intersects(second);
+    			if (intersect == null) continue;
+        		g.drawOval(intersect.getX()-3, intersect.getY()-3, 6, 6);    			
+    		}
     }
 
 	@Override

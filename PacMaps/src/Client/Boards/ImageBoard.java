@@ -1,7 +1,6 @@
 package Client.Boards;
 
 import java.awt.Graphics;
-import java.awt.Image;
 
 import Maps.Map;
 
@@ -30,11 +29,6 @@ public class ImageBoard extends AbstractBoard
     private void drawImage(Graphics g, int xOffset, int yOffset)
     {
         g.drawImage(map.getImage(), xOffset, yOffset, null);
-    }
-    
-    private void drawLines(Graphics g, int xOffset, int yOffset)
-    {
-    	
     }
 
     @Override

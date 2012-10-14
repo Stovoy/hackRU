@@ -1,5 +1,7 @@
 package Client.Panels.CenterPanels;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.JPanel;
 
 import Maps.Map;

@@ -75,6 +75,11 @@ public class Client extends JApplet implements ActionListener
 	{
 		return getCenterPanel(state);
 	}
+	
+	private void done()
+	{
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -94,6 +99,10 @@ public class Client extends JApplet implements ActionListener
 			Map map = getCurrentCenterPanel().getMap();
 			prepare(newState);
 			getCurrentCenterPanel().setMap(map);
+		}
+		else if (e.getActionCommand().equals("done"))
+		{
+			
 		}
 	}
 	

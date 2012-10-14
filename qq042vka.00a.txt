@@ -1,0 +1,33 @@
+Line Collision
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	deleted:    PacMaps/bin/Client.Client1350177434359.html
+#	modified:   PacMaps/bin/Client/Boards/EditorBoard.class
+#	modified:   PacMaps/bin/Client/Boards/ImageBoard.class
+#	modified:   PacMaps/bin/Client/Client$State.class
+#	modified:   PacMaps/bin/Client/Client.class
+#	modified:   PacMaps/bin/Client/Panels/ButtonPanel.class
+#	modified:   PacMaps/bin/Client/Panels/CenterPanels/AbstractCenterPanel.class
+#	modified:   PacMaps/bin/Client/Panels/CenterPanels/EditorPanel.class
+#	modified:   PacMaps/bin/Client/Panels/CenterPanels/GamePanel.class
+#	modified:   PacMaps/bin/Client/Panels/CenterPanels/SelectionPanel.class
+#	modified:   PacMaps/bin/Maps/Line.class
+#	modified:   PacMaps/bin/Maps/Map.class
+#	modified:   PacMaps/bin/Maps/Point.class
+#	modified:   PacMaps/src/Client/Boards/EditorBoard.java
+#	modified:   PacMaps/src/Client/Boards/ImageBoard.java
+#	modified:   PacMaps/src/Client/Client.java
+#	modified:   PacMaps/src/Client/Panels/ButtonPanel.java
+#	modified:   PacMaps/src/Client/Panels/CenterPanels/AbstractCenterPanel.java
+#	modified:   PacMaps/src/Client/Panels/CenterPanels/EditorPanel.java
+#	modified:   PacMaps/src/Client/Panels/CenterPanels/GamePanel.java
+#	modified:   PacMaps/src/Client/Panels/CenterPanels/SelectionPanel.java
+#	modified:   PacMaps/src/Maps/Line.java
+#	modified:   PacMaps/src/Maps/Map.java
+#	modified:   PacMaps/src/Maps/Point.java
+#
+

@@ -34,12 +34,14 @@ public class ButtonPanel extends JPanel
 			case Selector:
 				previous.setVisible(false);
 				next.setVisible(true);
+				next.setEnabled(false);
 				next.setText("Edit Map");
 				return;
 			case Editor:
 				previous.setVisible(true);
 				previous.setText("Select Map");
 				next.setVisible(true);
+				next.setEnabled(false);
 				next.setText("Play Map");
 				return;
 			case Game:
@@ -48,6 +50,11 @@ public class ButtonPanel extends JPanel
 				next.setVisible(false);
 				return;
 		}		
+	}
+	
+	public void done()
+	{
+		next.setEnabled(true);
 	}
 	
 	public void addActionListener(ActionListener listener)

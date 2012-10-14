@@ -1,5 +1,7 @@
 package Client.Panels.CenterPanels;
 
+import java.awt.event.ActionEvent;
+
 import Maps.Map;
 
 
@@ -22,5 +24,9 @@ public class GamePanel extends AbstractCenterPanel
 	public Map getMap()
 	{
 		return map;
+	}
+
+	protected void fireAction(ActionEvent e)
+	{
 	}
 }

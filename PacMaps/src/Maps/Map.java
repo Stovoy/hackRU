@@ -45,4 +45,9 @@ public class Map
 			lines[i] = this.lines.get(i);
 		return lines;
 	}
+	
+	public void clearLines()
+	{
+		lines.clear();
+	}
 }
