@@ -10,10 +10,10 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import javax.swing.JApplet;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import API.JSONReaderApi;
 import Client.Layout.TogglePanel;
 import Client.Panels.ControlPanel;
 import Client.Panels.CenterPanels.AbstractCenterPanel;
@@ -35,6 +35,18 @@ public class Client extends JApplet implements ActionListener, KeyListener
 	private HashMap<State, AbstractCenterPanel> stateToCenterPanel;
 	
 	private TogglePanel panel;
+	
+	public static void main(String args[]) throws UnsupportedLookAndFeelException
+	{
+	    Component applet = new Client();
+	    JFrame frame = new JFrame("PacMaps");
+	    frame.getContentPane().add(applet);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setSize(620, 860);
+	    frame.setResizable(false);
+	    frame.show();
+	}
 	
 	public Client() throws UnsupportedLookAndFeelException
 	{
