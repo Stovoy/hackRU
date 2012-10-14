@@ -45,7 +45,6 @@ public class Client extends JApplet implements ActionListener, KeyListener
 	    frame.pack();
 	    frame.setSize(620, 860);
 	    frame.setResizable(false);
-	    frame.show();
 	}
 	
 	public Client() throws UnsupportedLookAndFeelException

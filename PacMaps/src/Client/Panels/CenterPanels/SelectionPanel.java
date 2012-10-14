@@ -53,9 +53,6 @@ public class SelectionPanel extends AbstractCenterPanel
 		
 		map = new Map();
 		imageBoard.setMap(map);
-		
-		selectionText.setText("New York");
-		imageUpdate();
 	}
 	
 	public boolean isDone()
