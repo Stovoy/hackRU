@@ -1,7 +1,10 @@
 package Game;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.util.TimerTask;
+
+import javax.imageio.ImageIO;
 
 import Entities.PacMan;
 
@@ -13,11 +16,19 @@ public class Game extends TimerTask
 	@Override
 	public void run()
 	{
-		pacMan = new PacMan();
+		try
+		{
+			pacMan = new PacMan(ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("pacmid.png")));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public Image[] getImages()
+	public ImageData[] getImages()
 	{
-		return pacMan.getImage();
+		ImageData[] images = new ImageData[1];
+		images[0] = new ImageData();
 	}
 }
