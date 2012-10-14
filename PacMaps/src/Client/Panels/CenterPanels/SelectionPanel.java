@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 
 import API.GoogleMaps;
+import API.JSONReaderApi;
 import Client.Boards.ImageBoard;
 import Maps.Map;
 
@@ -28,11 +29,13 @@ public class SelectionPanel extends AbstractCenterPanel
 	
 	private boolean isDone = false;
 	
+	private JTextField populationData;
+	
 	public SelectionPanel()
 	{
 		setSize(600, 650);
 		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Selection"));
-		setLayout(new FormLayout("f:0px:g", "f:30px:n, f:20px:n, f:600px:n"));
+		setLayout(new FormLayout("f:0px:g", "f:30px:n, f:20px:n, f:600px:n, f:50px:n"));
 		
 		selectionText = new JTextField();
 		selectionText.setHorizontalAlignment(JTextField.HORIZONTAL);
@@ -40,8 +43,13 @@ public class SelectionPanel extends AbstractCenterPanel
 		imageBoard = new ImageBoard();
 		imageBoard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		
+		populationData = new JTextField();
+		populationData.setHorizontalAlignment(JTextField.HORIZONTAL);
+		populationData.setEditable(false);
+		
 		add(selectionText, CC.xy(1, 1));
 		add(imageBoard, CC.xy(1, 3));
+		add(populationData, CC.xy(1, 4));
 		
 		map = new Map();
 		imageBoard.setMap(map);
@@ -57,6 +65,7 @@ public class SelectionPanel extends AbstractCenterPanel
 	
 	private void imageUpdate()
 	{
+		populationData.setText(JSONReaderApi.getCensusData(selectionText.getText()));
 		Image image = GoogleMaps.getImage(selectionText.getText());
 		if (image == null) return;
 		fireAction(new ActionEvent(this, 1, "done"));

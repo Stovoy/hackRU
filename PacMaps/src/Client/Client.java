@@ -38,7 +38,6 @@ public class Client extends JApplet implements ActionListener, KeyListener
 	
 	public Client() throws UnsupportedLookAndFeelException
 	{
-		JSONReaderApi.getCensusData("Edison");
 		UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
 		setLayout(new FormLayout("f:0px:g", "f:0px:g"));
 		getContentPane().setBackground(new Color(244, 244, 244));

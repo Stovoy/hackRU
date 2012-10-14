@@ -20,13 +20,19 @@ public class JSONReaderApi
 	        while ((read = reader.read(chars)) != -1)
 	            buffer.append(chars, 0, read); 
 
-	        String string = buffer.toString();
-	        location.charAt(0);
-	        string.indexOf(location);
-	        System.out.println(buffer.toString().trim());
-	        
+	        String string = buffer.toString().toLowerCase();
+	        location = location.toLowerCase();
+	        int index = string.indexOf(location);
+	        if (index == -1)
+	    		return "No population data found. Enter a city in NJ.";
+	        string = string.substring(index);
+	        index = string.indexOf(": ");
+	        string = string.substring(index + 3);
+	        index = string.indexOf("\"");
+	        string = string.substring(0, index);
+	        return "The population of " + UppercaseFirstLetters(location) + " is " + string + " people.";
 	    }
-	    catch (Exception e) { e.printStackTrace(); }
+	    catch (Exception e) { }
 	    finally
 	    {
 	        if (reader != null) 
@@ -39,6 +45,24 @@ public class JSONReaderApi
 					e.printStackTrace();
 				}
 	    }
-		return null;
+		return "No population data found. Enter a city in NJ.";
+	}
+	
+	private static String UppercaseFirstLetters(String string) 
+	{
+	    boolean previousWasWhiteSpace = true;
+	    char[] chars = string.toCharArray();
+	    for (int i = 0; i < chars.length; i++) 
+	    {
+	        if (Character.isLetter(chars[i])) 
+	        {
+	            if (previousWasWhiteSpace) 
+	                chars[i] = Character.toUpperCase(chars[i]);    
+	            previousWasWhiteSpace = false;
+	        }
+	        else
+	        	previousWasWhiteSpace = Character.isWhitespace(chars[i]);
+	    }
+	    return new String(chars);
 	}
 }
