@@ -10,6 +10,12 @@ public class Point
 		this.y = y;
 	}
 	
+	public Point(java.awt.Point point)
+	{
+		this.x = point.x;
+		this.y = point.y;
+	}
+
 	public boolean isWithin(Point one, Point two)
 	{
 		int x1 = one.getX(), y1 = one.getY(), x2 = two.getX(), y2 = two.getY();
@@ -20,6 +26,21 @@ public class Point
 		yMin = Math.min(y1, y2);
 		yMax = Math.max(y1, y2);
 		return x >= xMin-5 && x <= xMax+5 && y >= yMin-5 && y <= yMax+5;
+	}
+	
+	public float distance(Point point)
+	{
+		return (float) Math.sqrt(Math.pow(point.getY()-y, 2) + Math.pow((point.getX()-x), 2));
+	}
+	
+	public Point increment(float angle, int distance)
+	{
+		return new Point((int)(x+Math.cos(angle)*distance), (int)(y+Math.sin(angle)*distance));
+	}
+	
+	public Point add(Point point)
+	{
+		return new Point(x + point.getX(), y + point.getY());
 	}
 	
 	public int getX()

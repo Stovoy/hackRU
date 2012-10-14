@@ -53,6 +53,7 @@ public class Map
 	
 	public void clearLines()
 	{
+		firstLine = null;
 		lines.clear();
 	}
 

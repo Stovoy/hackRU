@@ -17,14 +17,16 @@ public class GamePanel extends AbstractCenterPanel implements ActionListener
 {
 	private Map map;
 	private GameBoard gameBoard;
+	private JButton play;
 	
 	public GamePanel()
 	{
 		setLayout(new FormLayout("f:0px:g", "f:30px:n, f:0px:g"));
 		gameBoard = new GameBoard();
-		JButton play = new JButton("Play");
+		play = new JButton("Play");
 		play.setActionCommand("play");
 		play.addActionListener(this);
+		add(play, CC.xy(1, 1));
 		add(gameBoard, CC.xy(1, 2));
 	}
 
@@ -60,8 +62,16 @@ public class GamePanel extends AbstractCenterPanel implements ActionListener
 	{
 		if (e.getActionCommand().equals("play"))
 		{
-			gameBoard.start();
-			
+			if (gameBoard.isRunning())
+			{
+				gameBoard.stop();
+				play.setText("Play");
+			}
+			else
+			{
+				gameBoard.start();
+				play.setText("End");
+			}
 		}
 	}
 }

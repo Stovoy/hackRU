@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -15,30 +17,32 @@ import Maps.Intersect;
 import Maps.Line;
 import Maps.Map;
 
-public class GameBoard extends AbstractBoard
+public class GameBoard extends AbstractBoard implements MouseMotionListener
 {
     private Map map;
-    private Timer timer;
     private Game game;
     private boolean running = false;
     
     public GameBoard()
     {
-    	timer = new Timer();
+    	this.addMouseMotionListener(this);
     	game = new Game();
     }
     
     public void start()
     {
-    	timer.scheduleAtFixedRate(game, 0, 33);
+    	game = new Game();
+    	game.setGameBoard(this);
+    	game.initialize();
+    	new Timer().scheduleAtFixedRate(game, 0, 33);
     	running = true;
     }
-    
-    public void end()
-    {
-    	game.cancel();
-    	running = false;
-    }
+
+	public void stop()
+	{
+		game.cancel();
+		running = false;
+	}
 
 	@Override
 	public void update()
@@ -156,10 +160,31 @@ public class GameBoard extends AbstractBoard
 		return polygon;		
     }
 
+	public boolean isRunning()
+	{
+		return running;
+	}
+	
 	@Override
 	public void setMap(Map map)
 	{
 		this.map = map;
 		updateUI();
+	}
+	
+	public Map getMap()
+	{
+		return map;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e)
+	{
+		game.setMouseEvent(e);
 	}
 }

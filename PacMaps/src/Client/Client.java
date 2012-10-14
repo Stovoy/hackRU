@@ -96,7 +96,12 @@ public class Client extends JApplet implements ActionListener, KeyListener
 		{
 			State newState = null;
 			if (state == State.Game) newState = State.Editor;
-			else if (state == State.Editor) newState = State.Selector;
+			else if (state == State.Editor)
+			{
+				Map map = getCurrentCenterPanel().getMap();
+				map.clearLines();
+				newState = State.Selector;
+			}
 			prepare(newState);
 		}
 		else if (e.getActionCommand().equals("next"))
