@@ -11,6 +11,7 @@ import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 
+import Audio.Audio;
 import Client.Boards.GameBoard;
 import Entities.Blinky;
 import Entities.Clyde;
@@ -111,6 +112,8 @@ public class Game extends TimerTask
 			if (pellet.getPosition().distance(pacMan.getPosition()) < 10)
 				removeList.add(pellet);
 		}
+		if (removeList.size() > 0)
+			Audio.playWakaWaka();
 		for (Pellet pellet : removeList)
 		{
 			pellets.remove(pellet);
@@ -120,7 +123,10 @@ public class Game extends TimerTask
 			fireAction("win");
 		for (Ghost ghost : ghosts)
 			if (ghost.getPosition().distance(pacMan.getPosition()) < 4)
+			{
+				Audio.playDeath();
 				fireAction("lose");
+			}
 
 		gameBoard.update();
 	}

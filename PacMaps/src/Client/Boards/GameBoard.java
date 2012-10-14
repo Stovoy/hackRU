@@ -12,6 +12,7 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import Audio.Audio;
 import Game.Game;
 import Game.ImageData;
 import Maps.Intersect;
@@ -34,6 +35,7 @@ public class GameBoard extends AbstractBoard implements MouseMotionListener
     
     public void start()
     {
+		Audio.playBeginning();
     	game = new Game();
     	for (ActionListener actionListener : actionListeners)
     		game.addActionListener(actionListener);
