@@ -65,14 +65,13 @@ public class Client extends JApplet implements ActionListener, KeyListener
 		if (state != null) panel.setGrowing(centerPanel);
 		else
 		{
-			centerPanel.addActionListener(this);
 			panel = new TogglePanel(controlPanel, centerPanel, TogglePanel.Position.Top, TogglePanel.State.Opened);
 			add(panel, CC.xy(1, 1));
 		}
+		centerPanel.addActionListener(this);
 		state = newState;
 		controlPanel.prepare(state);
-		if (centerPanel.isDone())
-			controlPanel.done();
+		controlPanel.setDone(centerPanel.isDone());
 	}
 	
 	private AbstractCenterPanel getCenterPanel(State state)
@@ -85,9 +84,9 @@ public class Client extends JApplet implements ActionListener, KeyListener
 		return getCenterPanel(state);
 	}
 	
-	private void done()
+	private void setDone(boolean done)
 	{
-		controlPanel.done();
+		controlPanel.setDone(done);
 	}
 
 	@Override
@@ -111,15 +110,12 @@ public class Client extends JApplet implements ActionListener, KeyListener
 		}
 		else if (e.getActionCommand().equals("done"))
 		{
-			done();
+			setDone(true);
 		}
-	}
-	
-	public enum State
-	{
-		Selector,
-		Editor,
-		Game
+		else if (e.getActionCommand().equals("!done"))
+		{
+			setDone(false);
+		}
 	}
 
 	@Override
@@ -147,6 +143,12 @@ public class Client extends JApplet implements ActionListener, KeyListener
 				addKeyListenersToAllChildren(child);
 		}
 		component.addKeyListener(this);
-		
+	}
+	
+	public enum State
+	{
+		Selector,
+		Editor,
+		Game
 	}
 }

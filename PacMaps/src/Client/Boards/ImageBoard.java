@@ -19,16 +19,12 @@ public class ImageBoard extends AbstractBoard
     {
     	if (map == null) return;
         super.paintComponent(g);
-        int xOffset = (getWidth()-600)/2;
-        if (xOffset < 0) xOffset = 0;
-        int yOffset = (getHeight()-600)/2;
-        if (yOffset < 0) yOffset = 0;
-        drawImage(g, xOffset, yOffset);
+        drawImage(g);
     }
     
-    private void drawImage(Graphics g, int xOffset, int yOffset)
+    private void drawImage(Graphics g)
     {
-        g.drawImage(map.getImage(), xOffset, yOffset, null);
+        g.drawImage(map.getImage(), 0, 0, null);
     }
 
     @Override

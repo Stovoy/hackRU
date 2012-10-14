@@ -19,7 +19,7 @@ public class Point
 		xMax = Math.max(x1, x2);
 		yMin = Math.min(y1, y2);
 		yMax = Math.max(y1, y2);
-		return x >= xMin && x <= xMax && y >= yMin && y <= yMax;
+		return x >= xMin-5 && x <= xMax+5 && y >= yMin-5 && y <= yMax+5;
 	}
 	
 	public int getX()

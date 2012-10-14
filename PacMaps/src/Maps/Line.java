@@ -1,14 +1,18 @@
 package Maps;
 
+import java.util.ArrayList;
+
 public class Line
 {
-	Point start;
-	Point end;
+	private Point start;
+	private Point end;
+	private ArrayList<Intersect> intersects;
 	
 	public Line(Point start, Point end)
 	{
 		this.start = start;
 		this.end = end;
+		this.intersects = new ArrayList<Intersect>();
 	}
 	
 	public Point intersects(Line line)
@@ -26,12 +30,19 @@ public class Line
 		return intersection;
 	}
 	
-	public float getAngle()
+	public Point getMidpoint()
 	{
-		return (float)Math.atan2(end.getY()-start.getY(), end.getX()-start.getX());
+		int x = start.getX() + end.getX();
+		int y = start.getY() + end.getY();
+		return new Point(x, y);
 	}
 	
-	private float getSlope()
+	public float getAngle()
+	{
+		return (float)Math.atan2(end.getY() - start.getY(), end.getX() - start.getX());
+	}
+	
+	public float getSlope()
 	{
 		float dX = end.getX() - start.getX();
 		if (dX == 0) return Float.NaN;
@@ -72,5 +83,28 @@ public class Line
 		Line line = (Line)obj;
 		if (line.start.equals(start) && line.end.equals(end)) return true;
 		return false;
+	}
+
+	public void addIntersect(Point intersectPoint, Line line)
+	{
+		intersects.add(new Intersect(intersectPoint, line));
+	}
+	
+	public void clearIntersects()
+	{
+		intersects.clear();
+	}
+
+	public float getDistance()
+	{
+		return (float) Math.sqrt(Math.pow(end.getX()-start.getX(), 2) + Math.pow(end.getY()-start.getY(), 2));
+	}
+
+	public Intersect[] getIntersects()
+	{
+		Intersect[] intersectsArray = new Intersect[intersects.size()];
+		for (int i = 0; i < intersects.size(); ++i)
+			intersectsArray[i] = intersects.get(i);
+		return intersectsArray;
 	}
 }

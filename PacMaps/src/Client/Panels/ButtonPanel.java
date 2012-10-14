@@ -52,9 +52,9 @@ public class ButtonPanel extends JPanel
 		}		
 	}
 	
-	public void done()
+	public void setDone(boolean done)
 	{
-		next.setEnabled(true);
+		next.setEnabled(done);
 	}
 	
 	public void addActionListener(ActionListener listener)

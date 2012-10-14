@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="jgoodies-common.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms.jar"/>
 	<classpathentry kind="lib" path="jgoodies-looks.jar"/>
+	<classpathentry kind="lib" path="javaGeom-0.11.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

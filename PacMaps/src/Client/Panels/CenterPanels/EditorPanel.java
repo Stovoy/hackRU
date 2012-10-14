@@ -22,18 +22,23 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 {
 	private Map map;
 	private EditorBoard editorBoard;
+	
 	private Line line = null;
 	private ArrayList<ActionListener> actionListeners;
 	
 	private Stack<Line> lineHistory;
 	
 	private boolean isDone = false;
+	private boolean isDragging = false;
 	
 	public EditorPanel()
 	{
 		setLayout(new FormLayout("f:0px:g", "f:0px:g"));
+		
 		editorBoard = new EditorBoard();
+		
 		lineHistory = new Stack<Line>();
+		
 		add(editorBoard, CC.xy(1, 1));
 	}
 
@@ -70,10 +75,17 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
+		if (e.getY() > 600 || e.getX() > 600) return;
+		isDragging = true;
 		line = new Line(new Point(e.getX(), e.getY()), new Point(e.getX(), e.getY()));
 		lineHistory.push(line);
 		map.addLine(line);
 		editorBoard.update();
+		if (map.getLines().length > 1)
+		{
+			fireAction(new ActionEvent(this, 1, "done"));
+			isDone = true;
+		}
 	}
 
 	@Override
@@ -84,6 +96,7 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
+		if (!isDragging) return;
 		int x, y;
 		x = Math.max(Math.min(e.getX(), 600), 0);
 		y = Math.max(Math.min(e.getY(), 600), 0);
@@ -123,6 +136,7 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 			if (lineHistory.size() == 0) return;
 			map.removeLine(lineHistory.pop());
 			editorBoard.update();
+			if (lineHistory.size() <= 1) fireAction(new ActionEvent(this, 1, "!done"));		
 		}
 	}
 }

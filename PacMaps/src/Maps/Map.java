@@ -7,10 +7,13 @@ public class Map
 {
 	private Image image;
 	private ArrayList<Line> lines;
+	private Line firstLine;
 	
 	public Map()
 	{
+		image = null;
 		lines = new ArrayList<Line>();
+		firstLine = null;
 	}
 	
 	public void setImage(Image image)
@@ -25,6 +28,8 @@ public class Map
 	
 	public void addLine(Line line)
 	{
+		if (firstLine == null)
+			firstLine = line;
 		lines.add(line);
 	}
 	
@@ -54,5 +59,24 @@ public class Map
 	public void removeLine(Line line)
 	{
 		lines.remove(line);
+		if (lines.size() == 0)
+			firstLine = null;
+	}
+
+	public Line getFirstLine()
+	{
+		return firstLine;
+	}
+
+	public void clearIntersects()
+	{
+		for (Line line : lines)
+			line.clearIntersects();
+	}
+
+	public void addIntersect(Point intersectPoint, Line first, Line second)
+	{
+		first.addIntersect(intersectPoint, second);
+		second.addIntersect(intersectPoint, first);
 	}
 }

@@ -1,6 +1,9 @@
 package Client.Boards;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,13 +37,53 @@ public class EditorBoard extends AbstractBoard
     
     private void drawLines(Graphics g)
     {
+		Graphics2D graphics = (Graphics2D)g;
     	for (Line line : map.getLines())
-    		g.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
-    	drawIntersections(g);
+    	{
+    		if (line.equals(map.getFirstLine()))
+    			g.setColor(Color.GREEN);
+    		else
+        		g.setColor(Color.BLACK);
+    		Polygon polygon = createPolygon(line);
+    		graphics.fillPolygon(polygon);
+    		g.setColor(Color.WHITE);
+    		graphics.drawPolygon(polygon);
+    	}
+    	calculateIntersections(g);
     }
     
-    private void drawIntersections(Graphics g)
+    private Polygon createPolygon(Line line)
     {
+    	Polygon polygon = new Polygon();
+		float angle1 = (float) (line.getAngle() + Math.PI/2);
+		float angle2 = (float) (line.getAngle() - Math.PI/2);
+
+		final int w = 5;
+		
+		int x, y;
+		
+		x = (int) (Math.cos(angle1)*w + line.getStart().getX());
+		y = (int) (Math.sin(angle1)*w + line.getStart().getY());
+		polygon.addPoint(x, y);
+		
+		x = (int) (Math.cos(angle2)*w + line.getStart().getX());
+		y = (int) (Math.sin(angle2)*w + line.getStart().getY());
+		polygon.addPoint(x, y);
+		
+		x = (int) (Math.cos(angle2)*w + line.getEnd().getX());
+		y = (int) (Math.sin(angle2)*w + line.getEnd().getY());
+		polygon.addPoint(x, y);
+		
+		x = (int) (Math.cos(angle1)*w + line.getEnd().getX());
+		y = (int) (Math.sin(angle1)*w + line.getEnd().getY());
+		polygon.addPoint(x, y);
+		
+		return polygon;		
+    }
+    
+    private void calculateIntersections(Graphics g)
+    {
+    	map.clearIntersects();
     	if (map.getLines().length < 2) return;
     	HashMap<Line, ArrayList<Line>> calculated = new HashMap<Line, ArrayList<Line>>();
     	for (Line first : map.getLines())
@@ -72,7 +115,7 @@ public class EditorBoard extends AbstractBoard
     			else
     				intersect = first.intersects(second);
     			if (intersect == null) continue;
-        		g.drawOval(intersect.getX()-3, intersect.getY()-3, 6, 6);    			
+    			map.addIntersect(intersect, first, second); 			
     		}
     }
 

@@ -21,7 +21,6 @@ public class SelectionPanel extends AbstractCenterPanel
 {
 	private JTextField selectionText;
 	private ImageBoard imageBoard;
-	private int zoom = 16;
 	
 	private ArrayList<ActionListener> actionListeners;
 	
@@ -45,6 +44,9 @@ public class SelectionPanel extends AbstractCenterPanel
 		
 		map = new Map();
 		imageBoard.setMap(map);
+		
+		selectionText.setText("New York");
+		imageUpdate();
 	}
 	
 	public boolean isDone()
@@ -54,19 +56,13 @@ public class SelectionPanel extends AbstractCenterPanel
 	
 	private void imageUpdate()
 	{
-		Image image = GoogleMaps.getImage(selectionText.getText(), zoom);
+		Image image = GoogleMaps.getImage(selectionText.getText());
 		if (image == null) return;
 		fireAction(new ActionEvent(this, 1, "done"));
 		isDone = true;
 		map.clearLines();
 		map.setImage(image);
 		imageBoard.update();
-	}
-
-	private void zoom(int zoomOffset)
-	{
-		zoom += zoomOffset;
-		imageUpdate();
 	}
 	
 	@Override
@@ -90,6 +86,8 @@ public class SelectionPanel extends AbstractCenterPanel
 
 	protected void fireAction(ActionEvent e)
 	{
+		if (actionListeners == null)
+			return;
 		for (ActionListener listener : actionListeners)
 			listener.actionPerformed(e);
 	}
@@ -99,9 +97,5 @@ public class SelectionPanel extends AbstractCenterPanel
 	{
 		if (e.getKeyCode() == KeyEvent.VK_ENTER)
 			imageUpdate();
-		else if (e.getKeyCode() == KeyEvent.VK_UP)
-			zoom(1);
-		else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-			zoom(-1);
 	}
 }
