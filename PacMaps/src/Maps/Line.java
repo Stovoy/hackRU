@@ -87,7 +87,7 @@ public class Line
 
 	public void addIntersect(Point intersectPoint, Line line)
 	{
-		intersects.add(new Intersect(intersectPoint, line));
+		intersects.add(new Intersect(intersectPoint, line, (int) line.getStart().distance(intersectPoint)));
 	}
 	
 	public void clearIntersects()

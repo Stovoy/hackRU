@@ -4,11 +4,13 @@ public class Intersect
 {
 	private Point intersectPoint;
 	private Line line;
+	private int position;
 	
-	public Intersect(Point intersectPoint, Line line)
+	public Intersect(Point intersectPoint, Line line, int position)
 	{
 		this.intersectPoint = intersectPoint;
 		this.line = line;
+		this.position = position;
 	}
 
 	public Point getIntersect()
@@ -29,5 +31,15 @@ public class Intersect
 	public void setLine(Line line)
 	{
 		this.line = line;
+	}
+	
+	public int getPosition()
+	{
+		return position;
+	}
+	
+	public void setPosition(int position)
+	{
+		this.position = position;
 	}
 }

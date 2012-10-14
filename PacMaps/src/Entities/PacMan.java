@@ -4,6 +4,12 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.imgscalr.Scalr;
 
 import Maps.Intersect;
 import Maps.Line;
@@ -12,12 +18,29 @@ import Maps.Point;
 public class PacMan extends Entity
 {
 	private Point mouse;
-	private int distance;
-	private boolean moveForward = true;
 	
-	public PacMan(Image image, Line line)
+	private Image opened, mid, closed;
+	
+	private boolean opening = true;
+	
+	private int count = 0;
+	
+	private boolean following = false;
+	
+	public PacMan(Line line)
 	{
-		super(image, line);
+		super(line);
+		try
+		{
+			opened = ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("pacopened.png"));
+			opened = Scalr.resize((BufferedImage) opened, 12, (BufferedImageOp[])null);
+			mid = ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("pacmid.png"));
+			mid = Scalr.resize((BufferedImage) mid, 12, (BufferedImageOp[])null);
+			closed = ImageIO.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("pacclosed.png"));
+			closed = Scalr.resize((BufferedImage) closed, 12, (BufferedImageOp[])null);
+		}
+		catch (IOException e) { e.printStackTrace(); }
+		image = closed;
 		distance = 4;
 	}
 	
@@ -34,20 +57,42 @@ public class PacMan extends Entity
 	public void tick()
 	{
 		if (mouse == null) return;
-		move();
+		if (++count % 3 == 0)
+		{
+			count = 0;
+			if (image.equals(closed))
+			{
+				image = mid;
+				opening = true;
+			}
+			else if (image.equals(mid))
+			{
+				if (opening)
+					image = opened;
+				else
+					image = closed;
+			}
+			else
+			{
+				image = mid;
+				opening = false;
+			}
+		}
+		move();		
 	}
 	
 	private void move()
 	{
 		Point newPosition;
+		final int speed = 3;
 		if (moveForward)
 		{
-			distance += 5;
+			distance += speed;
 			newPosition = line.getStart().increment(angle, distance).add(new Point(-6, -6));
 		}
 		else
 		{
-			distance -= 5;
+			distance -= speed;
 			newPosition = line.getStart().increment(angle, distance).add(new Point(-6, -6));
 			
 		}
@@ -67,6 +112,7 @@ public class PacMan extends Entity
 				
 			}
 		}
+		if (!following) return;
 		boolean backwardsIsBest = false;
 		Intersect[] intersects = getIntersects();
 		float mouseAngle = getMouseToPacManAngle();
@@ -107,18 +153,15 @@ public class PacMan extends Entity
 				moveForward = false;
 			}
 		}
-		if (true)
+		if (closestIntersectingLine != line)
 		{
-			if (closestIntersectingLine != line)
-			{
-				angle = bestAngle;
-				line = closestIntersectingLine;
-				distance = (int) intersectingPoint.distance(line.getStart());
-			}
-			else if (backwardsIsBest == moveForward && minimumAngleDifference < Math.PI/64)
-			{
-				moveForward = !moveForward;	
-			}
+			angle = bestAngle;
+			line = closestIntersectingLine;
+			distance = (int) intersectingPoint.distance(line.getStart());
+		}
+		else if (backwardsIsBest == moveForward && minimumAngleDifference < Math.PI/32)
+		{
+			moveForward = !moveForward;	
 		}
 	}
 	
@@ -140,5 +183,20 @@ public class PacMan extends Entity
 	public void setMouse(Point point)
 	{
 		mouse = point;
+	}
+
+	public Line getLine()
+	{
+		return line;
+	}
+
+	public boolean isFollowing()
+	{
+		return following;
+	}
+
+	public void setFollowing(boolean following)
+	{
+		this.following = following;
 	}
 }

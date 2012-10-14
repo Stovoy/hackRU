@@ -17,10 +17,19 @@ public abstract class Entity
 {
 	protected Line line;
 	protected float angle;
+	protected int distance;
+	protected boolean moveForward = true;
 	
 	protected Point position;
 	
 	public Image image;
+	
+	public Entity(Line line)
+	{
+		this.line = line;
+		this.angle = line.getAngle();
+		this.position = line.getStart().increment(angle, 4).add(new Point(-6, -6));
+	}
 	
 	public Entity(Image image, Line line)
 	{

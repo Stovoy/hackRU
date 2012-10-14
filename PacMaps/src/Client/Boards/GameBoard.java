@@ -180,11 +180,12 @@ public class GameBoard extends AbstractBoard implements MouseMotionListener
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
+		game.setMouseEvent(e);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
-		game.setMouseEvent(e);
+		game.setMouseEvent(null);
 	}
 }
