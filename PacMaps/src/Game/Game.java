@@ -1,6 +1,8 @@
 package Game;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +30,13 @@ public class Game extends TimerTask
     private ArrayList<Pellet> pellets;
   
     private GameBoard gameBoard;
+    
+    private ArrayList<ActionListener> actionListeners;
+    
+    public Game()
+    {
+    	actionListeners = new ArrayList<ActionListener>();    	
+    }
     
     public void initialize()
     {
@@ -105,9 +114,21 @@ public class Game extends TimerTask
 		for (Pellet pellet : removeList)
 		{
 			pellets.remove(pellet);
+			fireAction("score");
 		}
+		if (pellets.size() == 0)
+			fireAction("win");
+		for (Ghost ghost : ghosts)
+			if (ghost.getPosition().distance(pacMan.getPosition()) < 4)
+				fireAction("lose");
 
 		gameBoard.update();
+	}
+
+	private void fireAction(String actionString)
+	{
+		for (ActionListener actionListener : actionListeners)
+			actionListener.actionPerformed(new ActionEvent(this, 1, actionString));
 	}
 
 	public ImageData[] getImages()
@@ -138,5 +159,10 @@ public class Game extends TimerTask
 	public void setGameBoard(GameBoard gameBoard)
 	{
 		this.gameBoard = gameBoard;
+	}
+	
+	public void addActionListener(ActionListener actionListener)
+	{
+		actionListeners.add(actionListener);
 	}
 }

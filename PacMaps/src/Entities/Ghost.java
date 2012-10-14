@@ -39,14 +39,15 @@ public abstract class Ghost extends Entity
 		{
 			if (moveForward)
 			{
-				distance = 4;
-				position = line.getStart().increment(angle, 4).add(new Point(-6, -6));
+				distance = (int)(line.getDistance()-4);
+				position = line.getStart().increment(angle, (int)(line.getDistance()-4)).add(new Point(-6, -6));
+				moveForward = !moveForward;
 			}
 			else
 			{
-				distance = (int)(line.getDistance()-4);
-				position = line.getStart().increment(angle, (int)(line.getDistance()-4)).add(new Point(-6, -6));
-				
+				distance = 4;
+				position = line.getStart().increment(angle, 4).add(new Point(-6, -6));
+				moveForward = !moveForward;				
 			}
 		}
 		if (++turnTicks == 20)
@@ -58,7 +59,7 @@ public abstract class Ghost extends Entity
 			for (Intersect intersect : intersects)
 			{
 				Random random = new Random();
-				if (random.nextInt(2) == 1)
+				if (random.nextInt(10) < 7)
 				{
 					moveForward = random.nextInt(2) == 0;
 					newLine = intersect.getLine();

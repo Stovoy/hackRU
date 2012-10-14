@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Area;
@@ -22,16 +23,20 @@ public class GameBoard extends AbstractBoard implements MouseMotionListener
     private Map map;
     private Game game;
     private boolean running = false;
+    private ArrayList<ActionListener> actionListeners;
     
     public GameBoard()
     {
     	this.addMouseMotionListener(this);
+    	this.actionListeners = new ArrayList<ActionListener>();
     	game = new Game();
     }
     
     public void start()
     {
     	game = new Game();
+    	for (ActionListener actionListener : actionListeners)
+    		game.addActionListener(actionListener);
     	game.setGameBoard(this);
     	game.initialize();
     	new Timer().scheduleAtFixedRate(game, 0, 33);
@@ -187,5 +192,10 @@ public class GameBoard extends AbstractBoard implements MouseMotionListener
 	public void mouseMoved(MouseEvent e)
 	{
 		game.setMouseEvent(null);
+	}
+
+	public void addActionListener(ActionListener actionListener)
+	{
+		actionListeners.add(actionListener);
 	}
 }

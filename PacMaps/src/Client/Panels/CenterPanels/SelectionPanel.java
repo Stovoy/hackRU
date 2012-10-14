@@ -35,6 +35,7 @@ public class SelectionPanel extends AbstractCenterPanel
 		setLayout(new FormLayout("f:0px:g", "f:30px:n, f:20px:n, f:600px:n"));
 		
 		selectionText = new JTextField();
+		selectionText.setHorizontalAlignment(JTextField.HORIZONTAL);
 		
 		imageBoard = new ImageBoard();
 		imageBoard.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));

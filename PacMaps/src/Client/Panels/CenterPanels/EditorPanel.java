@@ -75,6 +75,7 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
+		if (isDragging) return;			
 		if (e.getY() > 600 || e.getX() > 600) return;
 		isDragging = true;
 		line = new Line(new Point(e.getX(), e.getY()), new Point(e.getX(), e.getY()));
@@ -91,6 +92,7 @@ public class EditorPanel extends AbstractCenterPanel implements MouseListener, M
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
+		isDragging = false;
 	}
 
 	@Override
