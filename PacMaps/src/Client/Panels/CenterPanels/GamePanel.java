@@ -1,7 +1,10 @@
 package Client.Panels.CenterPanels;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
 
 import Client.Boards.GameBoard;
 import Maps.Map;
@@ -10,16 +13,19 @@ import com.jgoodies.forms.factories.CC;
 import com.jgoodies.forms.layout.FormLayout;
 
 
-public class GamePanel extends AbstractCenterPanel
+public class GamePanel extends AbstractCenterPanel implements ActionListener
 {
 	private Map map;
 	private GameBoard gameBoard;
 	
 	public GamePanel()
 	{
-		setLayout(new FormLayout("f:0px:g", "f:0px:g"));
+		setLayout(new FormLayout("f:0px:g", "f:30px:n, f:0px:g"));
 		gameBoard = new GameBoard();
-		add(gameBoard, CC.xy(1, 1));
+		JButton play = new JButton("Play");
+		play.setActionCommand("play");
+		play.addActionListener(this);
+		add(gameBoard, CC.xy(1, 2));
 	}
 
 	@Override
@@ -47,5 +53,15 @@ public class GamePanel extends AbstractCenterPanel
 	@Override
 	public void sendKeyPressed(KeyEvent e)
 	{
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getActionCommand().equals("play"))
+		{
+			gameBoard.start();
+			
+		}
 	}
 }

@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.Image;
 import java.io.IOException;
 import java.util.TimerTask;
 
@@ -29,6 +28,7 @@ public class Game extends TimerTask
 	public ImageData[] getImages()
 	{
 		ImageData[] images = new ImageData[1];
-		images[0] = new ImageData();
+		images[0] = new ImageData(pacMan.getImage(), pacMan.getPosition());
+		return images;
 	}
 }

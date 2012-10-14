@@ -13,10 +13,10 @@ import Maps.Point;
 
 public abstract class Entity
 {
-	private Line line;
-	private float angle;
+	protected Line line;
+	protected float angle;
 	
-	private Point position;
+	protected Point position;
 	
 	public Image image;
 	

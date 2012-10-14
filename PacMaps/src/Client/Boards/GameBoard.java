@@ -9,8 +9,8 @@ import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import Entities.PacMan;
 import Game.Game;
+import Game.ImageData;
 import Maps.Intersect;
 import Maps.Line;
 import Maps.Map;
@@ -20,10 +20,10 @@ public class GameBoard extends AbstractBoard
     private Map map;
     private Timer timer;
     private Game game;
+    private boolean running = false;
     
     public GameBoard()
     {
-//    	pacMan = new PacMan();
     	timer = new Timer();
     	game = new Game();
     }
@@ -31,6 +31,13 @@ public class GameBoard extends AbstractBoard
     public void start()
     {
     	timer.scheduleAtFixedRate(game, 0, 33);
+    	running = true;
+    }
+    
+    public void end()
+    {
+    	game.cancel();
+    	running = false;
     }
 
 	@Override
@@ -46,6 +53,8 @@ public class GameBoard extends AbstractBoard
         super.paintComponent(g);
         drawImage(g);
         drawLines(g);
+        if (running)
+        	drawGame(g);
     }
     
     private void drawImage(Graphics g)
@@ -67,9 +76,10 @@ public class GameBoard extends AbstractBoard
 		graphics.draw(area);
     }
 	
-	private void drawPacman(Graphics g)
+	private void drawGame(Graphics g)
 	{
-		game.getPacmanImage();
+		for (ImageData data: game.getImages())
+			g.drawImage(data.image, data.point.getX(), data.point.getY(), null);
 	}
     
     private Area createArea(Area area, ArrayList<Line> linesToProcess, ArrayList<Line> finishedLines)
